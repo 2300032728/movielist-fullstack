@@ -11,9 +11,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -39,4 +41,67 @@
 
 .read-the-docs {
   color: #090a0a;
+}
+
+/* ========================= */
+/* Movie Table Styling       */
+/* ========================= */
+
+.movie-container {
+  margin-top: 2rem;
+}
+
+.movie-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.movie-table th,
+.movie-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Make header a darker green */
+.movie-table thead th {
+  background-color: #2e7d32; /* dark green */
+  color: white;
+}
+
+/* Make ALL body rows green */
+.movie-table tbody tr {
+  background-color: #4caf50; /* lighter green */
+  color: white;
+}
+
+/* Hover effect for rows */
+.movie-table tbody tr:hover {
+  background-color: #45a049;
+}
+
+/* Form container styling */
+.form-container {
+  margin: 20px 0;
+}
+
+.form-container input {
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-container button {
+  padding: 8px 12px;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #1b5e20;
 }
