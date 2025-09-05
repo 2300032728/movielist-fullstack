@@ -1,0 +1,21 @@
+package com.example.demo;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class MovieEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String movieName;
+    private String release;
+    private String language;
+    private int rating;
+    private String type;
+    private String status;
+    // getters & setters
+}

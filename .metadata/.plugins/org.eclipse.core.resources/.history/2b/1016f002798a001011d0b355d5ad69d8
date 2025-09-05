@@ -1,0 +1,27 @@
+package com.example.demo;
+
+iimport org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+@Service
+public class MovieServiceImpl implements MovieService {
+
+    @Autowired
+    private MovieRepository repo;
+
+    @Override
+    public List<Movie> getAllMovies() {
+        return repo.findAll();
+    }
+
+    @Override
+    public Movie addMovie(Movie movie) {
+        return repo.save(movie);
+    }
+
+    @Override
+    public void deleteMovie(Long id) {
+        repo.deleteById(id);
+    }
+}

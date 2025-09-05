@@ -1,0 +1,15 @@
+package com.example.demo.model;
+
+@Entity
+public class MovieEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String movieName;
+    private String release;
+    private String language;
+    private int rating;
+    private String type;
+    private String status;
+    // getters & setters
+}
