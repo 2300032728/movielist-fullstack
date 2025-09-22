@@ -6,7 +6,6 @@ import config from "./config.js";
 const MovieWatchlist = () => {
   const [movies, setMovies] = useState([]);
   const [movie, setMovie] = useState({
-    id: "",
     name: "",
     releaseYear: "",
     language: "",
@@ -86,7 +85,6 @@ const MovieWatchlist = () => {
   // Edit Movie (fills form)
   const handleEdit = (m) => {
     setMovie({
-      id: m.id,
       name: m.name,
       releaseYear: m.releaseYear,
       language: m.language,
@@ -101,7 +99,6 @@ const MovieWatchlist = () => {
 
   const resetForm = () => {
     setMovie({
-      id: "",
       name: "",
       releaseYear: "",
       language: "",
@@ -117,9 +114,7 @@ const MovieWatchlist = () => {
     <div className="movie-container">
       {message && (
         <div
-          className={`message-banner ${
-            message.includes("❌") ? "error" : "success"
-          }`}
+          className={`message-banner ${message.includes("❌") ? "error" : "success"}`}
         >
           {message}
         </div>
@@ -129,20 +124,15 @@ const MovieWatchlist = () => {
 
       {/* Form */}
       <div className="form-grid">
-        <input
-          type="number"
-          name="id"
-          placeholder="Movie ID"
-          value={movie.id}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Movie Name"
-          value={movie.name}
-          onChange={handleChange}
-        />
+        {!editMode && (
+          <input
+            type="text"
+            name="name"
+            placeholder="Movie Name"
+            value={movie.name}
+            onChange={handleChange}
+          />
+        )}
         <input
           type="text"
           name="releaseYear"
@@ -158,9 +148,9 @@ const MovieWatchlist = () => {
           onChange={handleChange}
         />
         <input
-          type="number"
+          type="text"
           name="rating"
-          placeholder="Rating"
+          placeholder="Rating (e.g. 8.5)"
           value={movie.rating}
           onChange={handleChange}
         />
