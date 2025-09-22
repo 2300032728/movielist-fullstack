@@ -4,7 +4,7 @@ package com.example.demo;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "movies")
+@Table(name = "mv")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,7 @@ public class Movie {
 
     private String name;
     private String releaseYear;
+    @Column(name = "movie_language")
     private String language;
     private String rating;
     private String type;
