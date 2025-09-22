@@ -1,3 +1,6 @@
-const config={
-    url:"http://localhost:2030/Backend-2"
-}
+// config.js
+const config = {
+  backendUrl: "http://localhost:8088"
+};
+
+export default config;

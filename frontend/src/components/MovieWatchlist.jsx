@@ -18,7 +18,7 @@ const MovieWatchlist = () => {
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  const baseUrl = `${config.url}/api/movies`;
+  const baseUrl = `${config.backendUrl}/api/movies`;
 
   useEffect(() => {
     fetchAllMovies();
