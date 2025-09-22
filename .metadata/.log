@@ -1531,3 +1531,18 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 17:58:46.615
 !MESSAGE Classpath changed for project: Backend-2
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 18:05:07.027
+!MESSAGE Classpath changed for project: Backend-2
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 18:07:19.192
+!MESSAGE Classpath changed for project: Backend-2
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 18:08:41.250
+!MESSAGE Classpath changed for project: Backend-2
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 18:11:19.263
+!MESSAGE Classpath changed for project: Backend-2
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2025-09-22 18:16:30.341
+!MESSAGE Classpath changed for project: Backend-2

@@ -35,17 +35,20 @@ pipeline {
             }
         }
 
-        // ===== BACKEND DEPLOY =====
+        // ===== BACKEND DEPLOY (Context: /Backend-2) =====
         stage('Deploy Backend to Tomcat') {
             steps {
                 bat '''
+                REM Remove old deployment
                 if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2.war" (
                     del /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2.war"
                 )
                 if exist "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2" (
                     rmdir /S /Q "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2"
                 )
-                copy backend\\target\\*.war "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2.war"
+
+                REM Deploy new WAR
+                copy "Backend-2\\target\\Backend-2.war" "C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps\\Backend-2.war"
                 '''
             }
         }
@@ -54,10 +57,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Watchlist Project Deployment Successful!'
+            echo '✅ Deployment Successful at /Backend-2'
         }
         failure {
-            echo '❌ Watchlist Project Pipeline Failed.'
+            echo '❌ Deployment Failed'
         }
     }
 }
