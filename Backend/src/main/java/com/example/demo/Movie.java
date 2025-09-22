@@ -1,4 +1,4 @@
-/*package com.example.demo;
+package com.example.demo;
 
 import jakarta.persistence.*;
 
@@ -15,121 +15,71 @@ public class Movie {
     private String rating;
     private String type;
     private String status;
-
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getReleaseYear() { return releaseYear; }
-    public void setReleaseYear(String releaseYear) { this.releaseYear = releaseYear; }
-
-    public String getLanguage() { return language; }
-    public void setLanguage(String language) { this.language = language; }
-
-    public String getRating() { return rating; }
-    public void setRating(String rating) { this.rating = rating; }
-
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-}*/
-package com.example.demo;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "movies")
-public class Movie {
-  
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "movie_id")
-  private Long id;
-  
-  @Column(name = "movie_name", nullable = false, length = 100)
-  private String name;
-  
-  @Column(name = "release_year", nullable = false, length = 10)
-  private String releaseYear;
-  
-  @Column(name = "movie_language", nullable = false, length = 30)
-  private String language;
-  
-  @Column(name = "movie_rating", length = 10)
-  private String rating;
-  
-  @Column(name = "movie_type", nullable = false, length = 20)
-  private String type;   // e.g., Action, Drama, etc.
-  
-  @Column(name = "movie_status", nullable = false, length = 20)
-  private String status; // e.g., Released, Upcoming
-  
-  // Getters and Setters
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-  
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
-  
-  public String getReleaseYear() {
-    return releaseYear;
-  }
-  public void setReleaseYear(String releaseYear) {
-    this.releaseYear = releaseYear;
-  }
-  
-  public String getLanguage() {
-    return language;
-  }
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-  
-  public String getRating() {
-    return rating;
-  }
-  public void setRating(String rating) {
-    this.rating = rating;
-  }
-  
-  public String getType() {
-    return type;
-  }
-  public void setType(String type) {
-    this.type = type;
-  }
-  
-  public String getStatus() {
-    return status;
-  }
-  public void setStatus(String status) {
-    this.status = status;
-  }
-  
-  @Override
-  public String toString() {
-    return "Movie [id=" + id + ", name=" + name + ", releaseYear=" + releaseYear + 
-           ", language=" + language + ", rating=" + rating + ", type=" + type + 
-           ", status=" + status + "]";
-  }
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getReleaseYear() {
+		return releaseYear;
+	}
+	public void setReleaseYear(String releaseYear) {
+		this.releaseYear = releaseYear;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public String getRating() {
+		return rating;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public Movie(Long id, String name, String releaseYear, String language, String rating, String type, String status) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.releaseYear = releaseYear;
+		this.language = language;
+		this.rating = rating;
+		this.type = type;
+		this.status = status;
+	}
+	public Movie() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Movie [id=" + id + ", name=" + name + ", releaseYear=" + releaseYear + ", language=" + language
+				+ ", rating=" + rating + ", type=" + type + ", status=" + status + "]";
+	}
+    
+    
 }
+
+
 
 

@@ -1,9 +1,0 @@
-package com.example.demo;
-
-import java.util.List;
-
-public interface MovieService {
-    List<Movie> getAllMovies();
-    Movie addMovie(Movie movie);
-    void deleteMovie(Long id);
-}

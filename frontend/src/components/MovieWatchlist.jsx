@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./MovieWatchlist.css";
+import config from "./config.js";
 
 const MovieWatchlist = () => {
   const [movies, setMovies] = useState([]);
-  const [newMovie, setNewMovie] = useState({
+  const [movie, setMovie] = useState({
     id: "",
     name: "",
     releaseYear: "",
@@ -12,113 +14,234 @@ const MovieWatchlist = () => {
     type: "",
     status: ""
   });
+  const [message, setMessage] = useState("");
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
+
+  const baseUrl = `${config.url}/api/movies`;
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/movies")
-      .then((res) => res.json())
-      .then((data) => setMovies(data))
-      .catch((err) => console.error(err));
+    fetchAllMovies();
   }, []);
 
+  // Fetch all movies
+  const fetchAllMovies = async () => {
+    try {
+      const res = await axios.get(baseUrl);
+      setMovies(res.data);
+    } catch (error) {
+      setMessage("❌ Failed to fetch movies.");
+    }
+  };
+
   const handleChange = (e) => {
-    setNewMovie({ ...newMovie, [e.target.name]: e.target.value });
+    setMovie({ ...movie, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    if (!movie.name.trim() || !movie.releaseYear.trim()) {
+      setMessage("⚠ Please fill all required fields.");
+      return false;
+    }
+    return true;
   };
 
   // Add Movie
-  const addMovie = () => {
-    fetch("http://localhost:8080/api/movies", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newMovie),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies([...movies, data]);
-        setNewMovie({ id: "", name: "", releaseYear: "", language: "", rating: "", type: "", status: "" });
-      });
+  const addMovie = async () => {
+    if (!validateForm()) return;
+    try {
+      await axios.post(baseUrl, movie);
+      setMessage("✅ Movie added successfully.");
+      fetchAllMovies();
+      resetForm();
+    } catch (error) {
+      setMessage("❌ Error adding movie.");
+    }
   };
 
   // Update Movie
-  const updateMovie = (id) => {
-    fetch(`http://localhost:8080/api/movies/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newMovie),
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        setMovies(movies.map((m) => (m.id === updated.id ? updated : m)));
-        setNewMovie({ id: "", name: "", releaseYear: "", language: "", rating: "", type: "", status: "" });
-      });
+  const updateMovie = async () => {
+    if (!validateForm()) return;
+    try {
+      await axios.put(`${baseUrl}/${editId}`, movie);
+      setMessage("✅ Movie updated successfully.");
+      fetchAllMovies();
+      resetForm();
+    } catch (error) {
+      setMessage("❌ Error updating movie.");
+    }
   };
 
   // Delete Movie
-  const deleteMovie = (id) => {
-    fetch(`http://localhost:8080/api/movies/${id}`, { method: "DELETE" })
-      .then(() => setMovies(movies.filter((m) => m.id !== id)));
+  const deleteMovie = async (id) => {
+    try {
+      await axios.delete(`${baseUrl}/${id}`);
+      setMessage("🗑 Movie deleted.");
+      fetchAllMovies();
+    } catch (error) {
+      setMessage("❌ Error deleting movie.");
+    }
   };
 
   // Edit Movie (fills form)
-  const editMovie = (movie) => {
-    setNewMovie(movie);
+  const handleEdit = (m) => {
+    setMovie({
+      id: m.id,
+      name: m.name,
+      releaseYear: m.releaseYear,
+      language: m.language,
+      rating: m.rating,
+      type: m.type,
+      status: m.status
+    });
+    setEditMode(true);
+    setEditId(m.id);
+    setMessage(`✏ Editing movie with ID ${m.id}`);
+  };
+
+  const resetForm = () => {
+    setMovie({
+      id: "",
+      name: "",
+      releaseYear: "",
+      language: "",
+      rating: "",
+      type: "",
+      status: ""
+    });
+    setEditMode(false);
+    setEditId(null);
   };
 
   return (
     <div className="movie-container">
+      {message && (
+        <div
+          className={`message-banner ${
+            message.includes("❌") ? "error" : "success"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <h1>🎬 Movie Watchlist</h1>
 
-      {/* Form with 2 columns */}
-      <div className="form-container">
-        <div className="form-column">
-          <input type="number" name="id" placeholder="Movie ID" value={newMovie.id} onChange={handleChange} />
-          <input type="text" name="name" placeholder="Movie Name" value={newMovie.name} onChange={handleChange} />
-          <input type="text" name="releaseYear" placeholder="Release Year" value={newMovie.releaseYear} onChange={handleChange} />
-        </div>
-        <div className="form-column">
-          <input type="text" name="language" placeholder="Language" value={newMovie.language} onChange={handleChange} />
-          <input type="number" name="rating" placeholder="Rating" value={newMovie.rating} onChange={handleChange} />
-          <input type="text" name="type" placeholder="Type" value={newMovie.type} onChange={handleChange} />
-          <input type="text" name="status" placeholder="Status (Watched/To Watch)" value={newMovie.status} onChange={handleChange} />
-        </div>
+      {/* Form */}
+      <div className="form-grid">
+        <input
+          type="number"
+          name="id"
+          placeholder="Movie ID"
+          value={movie.id}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="name"
+          placeholder="Movie Name"
+          value={movie.name}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="releaseYear"
+          placeholder="Release Year"
+          value={movie.releaseYear}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="language"
+          placeholder="Language"
+          value={movie.language}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="rating"
+          placeholder="Rating"
+          value={movie.rating}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="type"
+          placeholder="Type"
+          value={movie.type}
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="status"
+          placeholder="Status (Watched/To Watch)"
+          value={movie.status}
+          onChange={handleChange}
+        />
       </div>
 
-      <div className="button-group">
-        <button onClick={addMovie}>➕ Add Movie</button>
+      <div className="btn-group">
+        {!editMode ? (
+          <button className="btn-blue" onClick={addMovie}>
+            ➕ Add Movie
+          </button>
+        ) : (
+          <>
+            <button className="btn-green" onClick={updateMovie}>
+              🔄 Update Movie
+            </button>
+            <button className="btn-gray" onClick={resetForm}>
+              Cancel
+            </button>
+          </>
+        )}
       </div>
 
       {/* Movie Table */}
-      <table className="movie-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Release Year</th>
-            <th>Language</th>
-            <th>Rating</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {movies.map((movie) => (
-            <tr key={movie.id}>
-              <td>{movie.id}</td>
-              <td>{movie.name}</td>
-              <td>{movie.releaseYear}</td>
-              <td>{movie.language}</td>
-              <td>{movie.rating}</td>
-              <td>{movie.type}</td>
-              <td>{movie.status}</td>
-              <td>
-                <button onClick={() => editMovie(movie)}>✏️ Edit</button>{" "}
-                <button onClick={() => updateMovie(movie.id)}>🔄 Update</button>{" "}
-                <button onClick={() => deleteMovie(movie.id)}>❌ Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h3>All Movies</h3>
+      {movies.length === 0 ? (
+        <p>No movies found.</p>
+      ) : (
+        <div className="table-wrapper">
+          <table className="movie-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Release Year</th>
+                <th>Language</th>
+                <th>Rating</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {movies.map((m) => (
+                <tr key={m.id}>
+                  <td>{m.id}</td>
+                  <td>{m.name}</td>
+                  <td>{m.releaseYear}</td>
+                  <td>{m.language}</td>
+                  <td>{m.rating}</td>
+                  <td>{m.type}</td>
+                  <td>{m.status}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button className="btn-green" onClick={() => handleEdit(m)}>
+                        ✏️ Edit
+                      </button>
+                      <button className="btn-red" onClick={() => deleteMovie(m.id)}>
+                        ❌ Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
